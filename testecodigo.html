@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bebê Reborn</title>
+
+<style>
+  * { box-sizing: border-box; }
+
+body {
+  font-family: Arial;
+  background: #f2f2f2;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* PROGRESSO */
+.progress-box {
+  background: linear-gradient(135deg, #ffe6f2, #e6e6ff);
+  padding: 15px;
+  border-radius: 10px;
+  margin: 15px 0;
+  transition: all 0.3s ease;
+}
+
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.progress-bar {
+  background: #ddd;
+  height: 10px;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+.progress-bar div {
+  height: 100%;
+  width: 0%;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(90deg, #ff4da6, #6a5cff);
+  transition: width 0.5s ease, background 0.5s ease;
+}
+
+/* 🔥 brilho andando */
+.progress-bar div::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  animation: brilho 2s infinite;
+}
+
+@keyframes brilho {
+  0% { left: -100%; }
+  100% { left: 150%; }
+}
+
+/* FIXO */
+.progress-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  max-width: 420px;
+  margin: auto;
+  z-index: 999;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+/* OFERTAS */
+.oferta {
+  border: 1px solid #f8bbd0;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.oferta.clicado {
+  border: 2px solid #2ecc71;
+  background: #eafaf1;
+}
+
+.check {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #2ecc71;
+  font-size: 18px;
+  display: none;
+}
+
+.oferta.clicado .check {
+  display: block;
+}
+
+.btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  background: linear-gradient(to right, #ff4da6, #6a5cff);
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.btn.clicado {
+  background: #2ecc71;
+}
+
+/* POPUP */
+.popup-final {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-box {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  width: 90%;
+  max-width: 350px;
+  animation: aparecer 0.3s ease;
+}
+
+.popup-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(to right, #ff4da6, #6a5cff);
+  color: white;
+  font-size: 16px;
+}
+
+@keyframes aparecer {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes aparecer {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+</style>
+
+
+</head>
+
+<body>
+
+<div class="container">
+ 
+
+  <div class="progress-box" id="progressBox">
+    <div class="progress-top">
+      <span>Seu Progresso</span>
+      <span id="contador">0/10</span>
+    </div>
+
+    <div class="progress-bar">
+      <div id="barra"></div>
+    </div>
+
+    <p id="textoProgresso">Você precisa completar 10 sites.</p>
+  </div>
+  <div id="ofertas"></div>
+</div>
+
+<!-- POPUP -->
+<div class="popup-final" id="popupFinal">
+  <div class="popup-box">
+    <h3>🎉 Parabéns!</h3>
+    <p>Copie o código abaixo e envie no Instagram:</p>
+
+    <div id="codigoBox" style="font-size:22px;font-weight:bold;background:#f2f2f2;padding:15px;border-radius:8px;margin-bottom:15px;">
+      CODIGO
+    </div>
+
+    <button class="popup-btn" onclick="copiarCodigo(this)">
+      Copiar código
+    </button>
+  </div>
+</div>
+
+<script>
+// =======================
+// CONFIG
+// =======================
+const TEMPO_MINIMO = 5000; // 5 segundos
+const TEMPO_COOLDOWN = 60 * 60 * 1000; // 1 hora
+
+// =======================
+// CÓDIGOS
+// =======================
+const codigos = [
+  "A1B2C3","D4E5F6","G7H8I9","J1K2L3","M4N5O6",
+  "P7Q8R9","S1T2U3","V4W5X6","Y7Z8A9","B1C2D3"
+];
+
+// =======================
+// LINKS
+// =======================
+const links = [
+"https://pwd.entrafacil.com.br/pwd-1/#gsc.tab=0&gsc.q=consultoria%20em%20redução%20de%20custos%20empresariais&gsc.ref=more%3Aad",
+"https://pwd.entrafacil.com.br/pwd-2/#gsc.tab=0&gsc.q=consultoria%20em%20finanças%20corporativas&gsc.ref=more%3Aad",
+"https://pwd.entrafacil.com.br/pwd-3/#gsc.tab=0&gsc.q=consultoria%20em%20transformação%20digital%20para%20empresas&gsc.ref=more%3Aad",
+"https://pwd.entrafacil.com.br/pwd-4/#gsc.tab=0&gsc.q=Consultoria%20em%20gestão%20empresarial&gsc.ref=more%3Aad",
+"https://pwd.entrafacil.com.br/pwd-5/#gsc.tab=0&gsc.q=Consultoria%20empresarial&gsc.ref=more%3Aad",
+"https://pwd.entrafacil.com.br/pwd-6/#gsc.tab=0&gsc.q=empresa%20especializada%20em%20compliance%20fiscal&gsc.ref=more%3Aad",
+"https://pwd.entrafacil.com.br/pwd-7/#gsc.tab=0&gsc.q=consultoria%20em%20controladoria%20empresarial&gsc.ref=more%3Aad",
+"https://pwd.entrafacil.com.br/pwd-8/#gsc.tab=0&gsc.q=Consultoria%20em%20reestruturação%20financeira%20para%20empresas&gsc.ref=more%3Aad",
+"https://pwd.entrafacil.com.br/pwd-9/#gsc.tab=0&gsc.q=consultoria%20em%20transformação%20digital%20para%20indústrias&gsc.ref=more%3Aad",
+"https://pwd.entrafacil.com.br/pwd-10/#gsc.tab=0&gsc.q=life%20insurance%20quote&gsc.ref=more%3Aad"
+];
+
+// =======================
+// ESTADO
+// =======================
+let cliques = localStorage.getItem("cliques") ? parseInt(localStorage.getItem("cliques")) : 0;
+let clicados = localStorage.getItem("clicados") ? JSON.parse(localStorage.getItem("clicados")) : {};
+
+// =======================
+// GERAR CÓDIGO
+// =======================
+function pegarCodigo() {
+  let index = localStorage.getItem("codigoIndex")
+    ? parseInt(localStorage.getItem("codigoIndex"))
+    : 0;
+
+  let codigo = codigos[index];
+  index = (index + 1) % codigos.length;
+
+  localStorage.setItem("codigoIndex", index);
+  return codigo;
+}
+
+// =======================
+// COPIAR
+// =======================
+function copiarCodigo(btn) {
+  let codigo = document.getElementById("codigoBox").innerText;
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(codigo).then(() => sucesso(btn));
+  } else {
+    let textarea = document.createElement("textarea");
+    textarea.value = codigo;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+    sucesso(btn);
+  }
+}
+
+function sucesso(btn) {
+  btn.innerHTML = "✔ Código copiado";
+  btn.style.background = "#2ecc71";
+  btn.disabled = true;
+
+  if (navigator.vibrate) navigator.vibrate(100);
+}
+
+// =======================
+// CLICK
+// =======================
+function clicar(id) {
+  if (clicados[id]) return;
+
+  localStorage.setItem("siteAtual", id);
+  localStorage.setItem("tempoClique", Date.now());
+
+  window.open(links[id - 1], "_self");
+}
+
+// =======================
+// PROCESSAR RETORNO
+// =======================
+function processarRetorno() {
+  let siteAtual = localStorage.getItem("siteAtual");
+  let tempoClique = localStorage.getItem("tempoClique");
+
+  if (siteAtual && tempoClique) {
+    let id = parseInt(siteAtual);
+    let tempo = Date.now() - parseInt(tempoClique);
+
+    if (tempo >= TEMPO_MINIMO) {
+
+      if (!clicados[id]) {
+        clicados[id] = true;
+        cliques++;
+
+        localStorage.setItem("cliques", cliques);
+        localStorage.setItem("clicados", JSON.stringify(clicados));
+      }
+
+      localStorage.removeItem("siteAtual");
+      localStorage.removeItem("tempoClique");
+
+      atualizarInterface();
+      atualizarTela();
+
+    } else {
+      mostrarAviso();
+        // 🔥 REMOVE para não tentar novamente
+          localStorage.removeItem("siteAtual");
+          localStorage.removeItem("tempoClique");
+    }
+  }
+}
+
+// =======================
+// AVISO VISUAL
+// =======================
+function mostrarAviso() {
+  if (document.getElementById("avisoTempo")) return;
+
+  let overlay = document.createElement("div");
+  overlay.id = "avisoTempo";
+
+  overlay.innerHTML = `
+    <div style="
+      background:#fff;
+      padding:25px;
+      border-radius:12px;
+      text-align:center;
+      width:85%;
+      max-width:320px;
+      animation: aparecer 0.3s ease;
+    ">
+      <div style="font-size:40px;">⚠️</div>
+      <h3 style="margin:10px 0;">Atenção</h3>
+      <p style="font-size:15px;margin-bottom:15px;">
+        Você voltou rápido demais.<br>
+        Fique pelo menos <b>5 segundos</b> no site patrociado.
+      </p>
+      <button onclick="fecharAviso()" style="
+        width:100%;
+        padding:12px;
+        border:none;
+        border-radius:8px;
+        background:#ff4d4d;
+        color:#fff;
+        font-size:15px;
+      ">
+        Entendi
+      </button>
+    </div>
+  `;
+
+  overlay.style.position = "fixed";
+  overlay.style.top = "0";
+  overlay.style.left = "0";
+  overlay.style.width = "100%";
+  overlay.style.height = "100%";
+  overlay.style.background = "rgba(0,0,0,0.7)";
+  overlay.style.display = "flex";
+  overlay.style.justifyContent = "center";
+  overlay.style.alignItems = "center";
+  overlay.style.zIndex = "99999";
+
+  document.body.appendChild(overlay);
+}
+
+function fecharAviso() {
+  let aviso = document.getElementById("avisoTempo");
+  if (aviso) aviso.remove();
+}
+
+// =======================
+// LOOP (INSTAGRAM FIX)
+// =======================
+setInterval(() => {
+  processarRetorno();
+}, 800);
+
+window.addEventListener("focus", processarRetorno);
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    processarRetorno();
+  }
+});
+
+// =======================
+// INTERFACE
+// =======================
+const ofertasDiv = document.getElementById("ofertas");
+
+for (let i = 1; i <= 10; i++) {
+  const oferta = document.createElement("div");
+  oferta.className = "oferta";
+
+  oferta.innerHTML = `
+    <span class="check">✔</span>
+    <h4>Site ${i}</h4>
+    <p>Clique no botão abaixo: Site ${i}</p>
+    <button class="btn" onclick="clicar(${i})">
+      Clique Aqui
+    </button>
+  `;
+
+  ofertasDiv.appendChild(oferta);
+}
+
+function atualizarInterface() {
+  const ofertas = document.querySelectorAll(".oferta");
+
+  ofertas.forEach((oferta, index) => {
+    let id = index + 1;
+
+    if (clicados[id]) {
+      oferta.classList.add("clicado");
+
+      let btn = oferta.querySelector(".btn");
+      btn.classList.add("clicado");
+      btn.innerText = "Clicado";
+      btn.disabled = true;
+    }
+  });
+}
+
+// =======================
+// PROGRESSO
+// =======================
+function atualizarTela() {
+  const contador = document.getElementById("contador");
+  const barra = document.getElementById("barra");
+  const textoEl = document.getElementById("textoProgresso");
+
+  contador.innerText = cliques + "/10";
+  barra.style.width = (cliques * 10) + "%";
+
+  let texto = "";
+
+  if (cliques === 0) {
+    texto = "🚀 Vamos começar! Complete os 10 sites.";
+  }
+  else if (cliques === 1) {
+    texto = "🔥 Boa! Você já começou!";
+  }
+  else if (cliques <= 3) {
+    texto = "💪 Continue! Você está indo bem!";
+  }
+  else if (cliques === 5) {
+    texto = "⚡ Metade do caminho!";
+  }
+  else if (cliques <= 8) {
+    texto = "🔥 Você está quase lá!";
+  }
+  else if (cliques === 9) {
+    texto = "🎯 Falta só 1! NÃO PARE!";
+  }
+
+  textoEl.innerText = texto;
+
+  // 🎉 FINAL
+  if (cliques === 10) {
+    let codigo = pegarCodigo();
+
+    document.getElementById("codigoBox").innerText = codigo;
+    document.getElementById("popupFinal").style.display = "flex";
+    document.body.style.overflow = "hidden";
+
+    localStorage.removeItem("cliques");
+    localStorage.removeItem("clicados");
+
+    localStorage.setItem("cooldownFim", Date.now() + TEMPO_COOLDOWN);
+  }
+
+  if (cliques === 10) {
+  barra.style.background = "#2ecc71";
+
+  // 🔥 glow verde
+  barra.style.boxShadow = "0 0 15px #2ecc71";
+
+  let codigo = pegarCodigo();
+
+  document.getElementById("codigoBox").innerText = codigo;
+  document.getElementById("popupFinal").style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  localStorage.removeItem("cliques");
+  localStorage.removeItem("clicados");
+}
+}
+
+function mostrarBloqueio(tempoRestante) {
+
+  let overlay = document.createElement("div");
+  overlay.id = "bloqueioTempo";
+
+  overlay.innerHTML = `
+    <div style="
+      background:#fff;
+      padding:25px;
+      border-radius:12px;
+      text-align:center;
+      width:85%;
+      max-width:320px;
+    ">
+      <h3>⏳ Aguarde</h3>
+      <p>Acesso aos sites bloqueados.</p>
+      <p>Volte em:</p>
+      <h2 id="contadorTempo">00:00</h2> 
+    </div>
+  `;
+
+  overlay.style.position = "fixed";
+  overlay.style.top = "0";
+  overlay.style.left = "0";
+  overlay.style.width = "100%";
+  overlay.style.height = "100%";
+  overlay.style.background = "rgba(0,0,0,0.8)";
+  overlay.style.display = "flex";
+  overlay.style.justifyContent = "center";
+  overlay.style.alignItems = "center";
+  overlay.style.zIndex = "99999";
+
+  document.body.appendChild(overlay);
+
+  iniciarContador(tempoRestante);
+}
+
+function iniciarContador(ms) {
+  const el = document.getElementById("contadorTempo");
+
+  let intervalo = setInterval(() => {
+    ms -= 1000;
+
+    if (ms <= 0) {
+      clearInterval(intervalo);
+
+      document.getElementById("bloqueioTempo").remove();
+      localStorage.removeItem("cooldownFim");
+
+      return;
+    }
+
+    let horas = Math.floor(ms / 3600000);
+    let minutos = Math.floor((ms % 3600000) / 60000);
+    let segundos = Math.floor((ms % 60000) / 1000);
+
+    if (horas > 0) {
+      el.innerText = `${horas}h ${minutos}m ${segundos}s`;
+    } else {
+      el.innerText = `${minutos}m ${segundos}s`;
+    }
+  }, 1000);
+}
+
+function verificarCooldown() {
+  let fim = localStorage.getItem("cooldownFim");
+
+  if (!fim) return;
+
+  let restante = parseInt(fim) - Date.now();
+
+  if (restante > 0) {
+    mostrarBloqueio(restante);
+  }
+}
+
+// =======================
+// INIT
+// =======================
+atualizarInterface();
+atualizarTela();
+verificarCooldown();
+
+// =======================
+// BARRA FIXA (SCROLL)
+// =======================
+const progressBox = document.getElementById("progressBox");
+const offsetTop = progressBox.offsetTop;
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > offsetTop) {
+    progressBox.classList.add("progress-fixed");
+    document.body.style.paddingTop = progressBox.offsetHeight + "px";
+  } else {
+    progressBox.classList.remove("progress-fixed");
+    document.body.style.paddingTop = "0px";
+  }
+});
+</script>
+</body>
+</html>
