@@ -33,11 +33,40 @@ body {
 
 /* PROGRESSO */
 .progress-box {
-  background: linear-gradient(135deg, #ffe6f2, #e6e6ff);
+  background: rgba(255, 255, 255, 0.7); /* 🔥 transparente */
+  backdrop-filter: blur(10px); /* 🔥 efeito vidro */
+  -webkit-backdrop-filter: blur(10px);
+
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 14px;
   margin: 15px 0;
+
+  border: 1px solid rgba(255,255,255,0.4);
+
+  /* 🔥 SOMBRA DE SOBREPOSIÇÃO */
+  box-shadow: 
+    0 10px 25px rgba(0,0,0,0.15),
+    0 5px 10px rgba(0,0,0,0.08);
+
+  position: relative;
+  z-index: 2;
+
   transition: all 0.3s ease;
+}
+
+.progress-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.3),
+    rgba(255,255,255,0)
+  );
+
+  pointer-events: none;
 }
 
 .progress-top {
@@ -254,8 +283,55 @@ const links = [
 "https://pwd.entrafacil.com.br/pwd-7/#gsc.tab=0&gsc.q=consultoria%20em%20controladoria%20empresarial&gsc.ref=more%3Aad",
 "https://pwd.entrafacil.com.br/pwd-8/#gsc.tab=0&gsc.q=Consultoria%20em%20reestruturação%20financeira%20para%20empresas&gsc.ref=more%3Aad",
 "https://pwd.entrafacil.com.br/pwd-9/#gsc.tab=0&gsc.q=consultoria%20em%20transformação%20digital%20para%20indústrias&gsc.ref=more%3Aad",
-"https://pwd.entrafacil.com.br/pwd-10/#gsc.tab=0&gsc.q=life%20insurance%20quote&gsc.ref=more%3Aad"
+"https://pwd.entrafacil.com.br/pwd-10/#gsc.tab=0&gsc.q=life%20insurance%20quote&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-11/#gsc.tab=0&gsc.q=Consultoria%20de%20reestruturação%20empresarial&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-12/#gsc.tab=0&gsc.q=Treinamento%20corporativo%20em%20segurança%20digital&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-13/#gsc.tab=0&gsc.q=Consultoria%20em%20inovação%20empresarial&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-14/#gsc.tab=0&gsc.q=Tratamento%20avançado%20para%20alcoolismo%20com%20internação&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-15/#gsc.tab=0&gsc.q=Automação%20de%20processos%20empresariais&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-16/#gsc.tab=0&gsc.q=Centro%20especializado%20em%20dependência%20química%20em%20SP&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-17/#gsc.tab=0&gsc.q=Energia%20solar&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-18/#gsc.tab=0&gsc.q=Consultoria%20para%20franquias%20empresariais&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-19/#gsc.tab=0&gsc.q=Clínica%20para%20jovens%20com%20transtornos%20comportamentais&gsc.ref=more%3Aad", "https://pwd.entrafacil.com.br/pwd-20/#gsc.tab=0&gsc.q=consultoria%20em%20sustentabilidade%20empresarial&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-21/#gsc.tab=0&gsc.q=Consultoria%20em%20governança%20corporativa&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-21/#gsc.tab=0&gsc.q=Consultoria%20em%20governança%20corporativa&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-23/#gsc.tab=0&gsc.q=Escritório%20de%20advocacia%20empresarial%20SP&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-24/#gsc.tab=0&gsc.q=Consultoria%20empresarial%20para%20fusões%20e%20aquisições&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-25/#gsc.tab=0&gsc.q=Assessoria%20jurídica%20para%20startups&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-26/#gsc.tab=0&gsc.q=Implementação%20de%20energia%20solar%20em%20empresas&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-27/#gsc.tab=0&gsc.q=Consultoria%20de%20compliance%20ambiental&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-28/#gsc.tab=0&gsc.q=Consultoria%20em%20compliance%20empresarial&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-29/#gsc.tab=0&gsc.q=Tratamento%20de%20dependência%20química&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-30/#gsc.tab=0&gsc.q=Consultoria%20para%20reestruturação%20de%20empresas%20em%20crise&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-31/#gsc.tab=0&gsc.q=Consultoria%20para%20abertura%20de%20franquias&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-32/#gsc.tab=0&gsc.q=Plataformas%20de%20segurança%20digital%20para%20corporações&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-33/#gsc.tab=0&gsc.q=Treinamento%20em%20vendas%20para%20times%20corporativos&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-34/#gsc.tab=0&gsc.q=Planejamento%20estratégico%20para%20negócios%20escaláveis&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-35/#gsc.tab=0&gsc.q=Mentoria%20para%20executivos%20C-level&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-36/#gsc.tab=0&gsc.q=enxadinha%20de%20jardim&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-37/#gsc.tab=0&gsc.q=psicólogo%20online%20preço&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-38/#gsc.tab=0&gsc.q=Consultoria%20em%20proteção%20de%20dados%20LGPD&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-39/#gsc.tab=0&gsc.q=Instalação%20de%20sistemas%20fotovoltaicos&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-40/#gsc.tab=0&gsc.q=Clínica%20de%20reabilitação&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-41/#gsc.tab=0&gsc.q=Consultoria%20em%20reorganização%20societária&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-42/#gsc.tab=0&gsc.q=Consultoria%20de%20planejamento%20de%20carreira&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-43/#gsc.tab=0&gsc.q=Estratégias%20de%20crescimento%20para%20startups&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-44/#gsc.tab=0&gsc.q=Cursos%20online&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-45/#gsc.tab=0&gsc.q=Consultoria%20empresarial%20especializada%20em%20fusões%20e%20aquisições&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-46/#gsc.tab=0&gsc.q=Internação%20involuntária%20para%20dependentes%20químicos&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-47/#gsc.tab=0&gsc.q=Especialista%20em%20compliance%20financeiro%20internacional&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-48/#gsc.tab=0&gsc.q=Clínica%20de%20reabilitação%20de%20alto%20padrão&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-49/#gsc.tab=0&gsc.q=MBA%20em%20gestão%20de%20pessoas&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-50/#gsc.tab=0&gsc.q=MBA%20em%20gestão%20de%20projetos&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-51/#gsc.tab=0&gsc.q=mba%20em%20gestão%20empresarial&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-52/#gsc.tab=0&gsc.q=mba%20em%20gestão%20financeira&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-53/#gsc.tab=0&gsc.q=marketing%20digital%20para%20empresas&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-54/#gsc.tab=0&gsc.q=Soluções%20de%20segurança%20digital%20para%20grandes%20empresas&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-55/#gsc.tab=0&gsc.q=advogado%20trabalhista%20especializado&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-56/#gsc.tab=0&gsc.q=Consultoria%20jurídica%20para%20startups%20em%20crescimento&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-57/#gsc.tab=0&gsc.q=treinamento%20de%20equipes%20de%20vendas&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-58/#gsc.tab=0&gsc.q=cursos%20virtuais&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-59/#gsc.tab=0&gsc.q=Consultoria%20empresarial%20especializada%20em%20crescimento&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-60/#gsc.tab=0&gsc.q=Consultoria%20em%20gestão%20de%20riscos%20empresariais&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-61/#gsc.tab=0&gsc.q=Plataformas%20de%20e-commerce%20empresarial&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-62/#gsc.tab=0&gsc.q=Consultoria%20jurídica%20para%20abertura%20de%20empresas&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-63/#gsc.tab=0&gsc.q=consultoria%20jurídica%20empresarial&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-64/#gsc.tab=0&gsc.q=Curso%20de%20trader%20profissional&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-65/#gsc.tab=0&gsc.q=clínica%20de%20reabilitação%20para%20dependentes%20químicos&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-66/#gsc.tab=0&gsc.q=Consultoria%20de%20marketing%20digital%20para%20startupsl&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-67/#gsc.tab=0&gsc.q=consultoria%20empresarial&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-68/#gsc.tab=0&gsc.q=clínica%20para%20dependentes%20químicos%20particular&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-69/#gsc.tab=0&gsc.q=clinica%20de%20recuperação&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-70/#gsc.tab=0&gsc.q=clínica%20de%20recuperação%20de%20dependentes%20químicos&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-71/#gsc.tab=0&gsc.q=gestão%20empresarial%20consultoria&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-72/#gsc.tab=0&gsc.q=Plano%20de%20transição%20de%20carreira%20para%20líderes&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-73/#gsc.tab=0&gsc.q=Consultoria%20de%20marketing%20digital&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-74/#gsc.tab=0&gsc.q=Curso%20de%20MBA%20online%20para%20executivos%20de%20finanças&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-75/#gsc.tab=0&gsc.q=Certificação%20gestão%20projetos%20profissionais&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-76/#gsc.tab=0&gsc.q=Curso%20análise%20dados%20cientista&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-77/#gsc.tab=0&gsc.q=Consultoria%20em%20inovação%20tecnológica&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-78/#gsc.tab=0&gsc.q=Soluções%20de%20segurança%20cibernética%20corporativa&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-79/#gsc.tab=0&gsc.q=Assessoria%20jurídica%20em%20recuperação%20judicial&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-80/#gsc.tab=0&gsc.q=segurança%20cibernética%20para%20empresas&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-81/#gsc.tab=0&gsc.q=Advogado%20para%20casos%20de%20acidentes%20de%20trabalho&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-82/#gsc.tab=0&gsc.q=Consultoria%20em%20SEO&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-83/#gsc.tab=0&gsc.q=Desenvolvimento%20de%20liderança%20empresarial&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-84/#gsc.tab=0&gsc.q=Consultoria%20em%20segurança%20da%20informação&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-85/#gsc.tab=0&gsc.q=Negócios%20locais%20inovadores&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-86/#gsc.tab=0&gsc.q=Assessoria%20jurídica%20médica&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-87/#gsc.tab=0&gsc.q=Curso%20online%20para%20gerentes%20de%20alto%20desempenho&gsc.ref=more%3Aad","https://pwd.entrafacil.com.br/pwd-88/#gsc.tab=0&gsc.q=Consultoria%20em%20análise%20de%20dados%20empresariais&gsc.ref=more%3Aad"
 ];
+
+// =======================
+// SORTEIO INTELIGENTE
+// =======================
+
+// embaralhar
+function embaralhar(array) {
+  let copia = [...array];
+
+  for (let i = copia.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [copia[i], copia[j]] = [copia[j], copia[i]];
+  }
+
+  return copia;
+}
+
+// pegar links sem repetir (com rotação)
+function pegarLinksRodada(qtd) {
+
+  let historico = JSON.parse(localStorage.getItem("historicoLinks")) || [];
+
+  // remove links já usados recentemente
+  let disponiveis = links.filter(link => !historico.includes(link));
+
+  // se acabar os links, reinicia
+  if (disponiveis.length < qtd) {
+    historico = [];
+    disponiveis = [...links];
+  }
+
+  let embaralhado = embaralhar(disponiveis);
+  let selecionados = embaralhado.slice(0, qtd);
+
+  // salva histórico
+  historico.push(...selecionados);
+  localStorage.setItem("historicoLinks", JSON.stringify(historico));
+
+  return selecionados;
+}
+
+let linksSelecionados = JSON.parse(localStorage.getItem("linksSelecionados"));
+
+if (!linksSelecionados || linksSelecionados.length < 10) {
+  linksSelecionados = pegarLinksRodada(10);
+  localStorage.setItem("linksSelecionados", JSON.stringify(linksSelecionados));
+}
 
 // =======================
 // ESTADO
@@ -314,7 +390,7 @@ function clicar(id) {
   localStorage.setItem("siteAtual", id);
   localStorage.setItem("tempoClique", Date.now());
 
-  window.open(links[id - 1], "_self");
+  window.open(linksSelecionados[id - 1], "_self");
 }
 
 // =======================
@@ -375,8 +451,8 @@ function mostrarAviso() {
       <div style="font-size:40px;">⚠️</div>
       <h3 style="margin:10px 0;">Atenção</h3>
       <p style="font-size:15px;margin-bottom:15px;">
-        Você voltou rápido demais.<br>
-        Fique pelo menos <b>5 segundos</b> no site patrociado.
+        Você não acessou o site patrocinado.<br>
+        Clique no botão abaixo e <b>acesse o  site patrocinado</b>.
       </p>
       <button onclick="fecharAviso()" style="
         width:100%;
@@ -510,6 +586,8 @@ function atualizarTela() {
     localStorage.removeItem("clicados");
 
     localStorage.setItem("cooldownFim", Date.now() + TEMPO_COOLDOWN);
+
+    localStorage.removeItem("linksSelecionados");
   }
 
   if (cliques === 10) {
