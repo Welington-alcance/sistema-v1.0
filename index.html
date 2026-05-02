@@ -4,10 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="style.css">
-<title>Bebê Reborn sorteio</title>
+<title>Bebê Reborn</title>
 </head>
 
 <body>
-  <h1><a href="testecodigo.html">Clique Aqui</a></h1>
+
+<div class="container">
+ 
+
+  <div class="progress-box" id="progressBox">
+    <div class="progress-top">
+      <span>Seu Progresso</span>
+      <span id="contador">0/10</span>
+    </div>
+
+    <div class="progress-bar">
+      <div id="barra"></div>
+    </div>
+
+    <p id="textoProgresso">Você precisa completar 10 sites.</p>
+  </div>
+  <div id="ofertas"></div>
+</div>
+
+<!-- POPUP -->
+<div class="popup-final" id="popupFinal">
+  <div class="popup-box">
+    <h3>🎉 Parabéns!</h3>
+    <p>Copie o código abaixo e envie no Instagram:</p>
+
+    <div id="codigoBox" style="font-size:22px;font-weight:bold;background:#f2f2f2;padding:15px;border-radius:8px;margin-bottom:15px;">
+      CODIGO
+    </div>
+
+    <button class="popup-btn" onclick="copiarCodigo(this)">
+      Copiar código
+    </button>
+  </div>
+</div>
+
+<script 
+  src="script.js">
+</script>
 </body>
 </html>
